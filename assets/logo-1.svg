@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="54.469818mm"
+   height="25.69693mm"
+   viewBox="0 0 54.469818 25.69693"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="Monty Pages logo.svg"
+   inkscape:export-filename="Monty Pages logo YT.jpg"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.26110523"
+     inkscape:cx="1141.3023"
+     inkscape:cy="566.82128"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="true" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-201.26618,-267.14056)">
+    <g
+       id="g1677"
+       transform="matrix(0.45374138,0,0,0.45374138,122.92527,251.02661)">
+      <g
+         id="g1671"
+         transform="translate(128.06562,10.628154)">
+        <rect
+           style="fill:#0c120c;fill-opacity:1;stroke:#4d4d4d;stroke-width:3.96875;stroke-dasharray:none;stroke-opacity:1"
+           id="rect1659"
+           width="90.282265"
+           height="52.664654"
+           x="59.471653"
+           y="26.869724"
+           rx="1.2482243"
+           ry="1.323279"
+           inkscape:export-filename="..\MontyPagesSite\assets\logo-1.svg"
+           inkscape:export-xdpi="300"
+           inkscape:export-ydpi="300" />
+        <rect
+           style="fill:#f0eff4;fill-opacity:1;stroke:#666666;stroke-width:3.96875;stroke-dasharray:none;stroke-opacity:1"
+           id="rect1661"
+           width="116.0772"
+           height="2.0239999"
+           x="46.574184"
+           y="77.510376"
+           rx="1.2482243"
+           ry="1.323279" />
+        <rect
+           style="fill:#f9cb40;fill-opacity:1;stroke:none;stroke-width:3.83246;stroke-dasharray:none;stroke-opacity:1"
+           id="rect1663"
+           width="69.989487"
+           height="8.0609169"
+           x="69.170212"
+           y="33.139324"
+           rx="1.1639638"
+           ry="1.323279" />
+        <circle
+           style="fill:#f0eff4;fill-opacity:1;stroke:none;stroke-width:4.2872;stroke-dasharray:none;stroke-opacity:1"
+           id="circle1665"
+           cx="128.70598"
+           cy="58.844692"
+           r="13.64209" />
+        <rect
+           style="fill:#c20114;fill-opacity:1;stroke:none;stroke-width:3.96875;stroke-dasharray:none;stroke-opacity:1"
+           id="rect1667"
+           width="40.125454"
+           height="24.899275"
+           x="69.323883"
+           y="46.215923" />
+        <path
+           id="path1669"
+           style="fill:#048ba8;fill-opacity:1;stroke-width:3.96875"
+           d="M 109.44934,46.215923 V 71.115198 H 69.323883 Z"
+           sodipodi:nodetypes="cccc" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:47.3025px;line-height:2.55;font-family:Atlanta;-inkscape-font-specification:Atlanta;letter-spacing:0px;word-spacing:0px;stroke-width:0.492734"
+         x="89.565994"
+         y="136.59737"
+         id="text1675"><tspan
+           sodipodi:role="line"
+           id="tspan1673"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.3025px;font-family:'Stack Sans Notch';-inkscape-font-specification:'Stack Sans Notch';fill:#0c120c;fill-opacity:1;stroke-width:0.492734"
+           x="89.565994"
+           y="136.59737">Monty Pages</tspan></text>
+    </g>
+  </g>
+</svg>
