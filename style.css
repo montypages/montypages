@@ -8,12 +8,12 @@ html {
     --heading-font: "Stack Sans Notch", sans-serif;
     --text-font: "Stack Sans Text", sans-serif;
 
-    --step-0: clamp(1.125rem, 1.0739rem + 0.2273vw, 1.25rem);
-    --step-1: clamp(1.5625rem, 1.7386rem + -0.2273vw, 1.6875rem);
-    --step-2: clamp(1.9531rem, 2.7678rem + -1.0511vw, 2.5313rem);
-    --step-3: clamp(2.4414rem, 4.3514rem + -2.4645vw, 3.7969rem);
-    --step-4: clamp(3.0518rem, 6.7768rem + -4.8065vw, 5.6953rem);
-    --step-5: clamp(3.8147rem, 10.4773rem + -8.5969vw, 8.543rem);
+  --step-0: clamp(0.875rem, 0.7216rem + 0.6818vw, 1.25rem);
+  --step-1: clamp(1.05rem, 0.7125rem + 1.5vw, 1.875rem);
+  --step-2: clamp(1.26rem, 0.6249rem + 2.8227vw, 2.8125rem);
+  --step-3: clamp(1.512rem, 0.4047rem + 4.9214vw, 4.2188rem);
+  --step-4: clamp(1.8144rem, -0.0321rem + 8.2068vw, 6.3281rem);
+  --step-5: clamp(2.1773rem, -0.8152rem + 13.2998vw, 9.4922rem);
 }
 
 body {
@@ -46,16 +46,17 @@ h1 {
     font-size: var(--step-5);
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: var(--step-4);
-    }
-}
 
 h2 {
     font-size: var(--step-2);
     color: hsl(from currentColor h s l / 0.8)
 }
+
+/* @media (max-width: 768px) {
+    h1 {
+        font-size: var(--step-4);
+    }
+} */
 
 p, a {
     font-family: var(--text-font);
