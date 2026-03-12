@@ -68,6 +68,10 @@ p, a {
 .container {
     width: min(90%, 700px);
     margin: 0 auto;
+
+    &.wide {
+        width: min(90%, 1200px);
+    }
 }
 
 a {
