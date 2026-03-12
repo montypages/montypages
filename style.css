@@ -48,7 +48,7 @@ h1 {
 
 @media (max-width: 768px) {
     h1 {
-        font-size: var(--setp-4);
+        font-size: var(--step-4);
     }
 }
 
