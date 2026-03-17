@@ -1,8 +1,8 @@
 <script>
     import Header from "$lib/components/header.svelte";
     import OneLiner from "$lib/components/one-liner.svelte";
-    import LogoButton from "$lib/components/logo-button.svelte";
     import ContactForm from "$lib/components/contact-form.svelte";
+    import Noise from "$lib/components/noise.svelte";
 
     let { form } = $props();
 
