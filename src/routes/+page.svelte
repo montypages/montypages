@@ -5,12 +5,12 @@
 
     let textures = [
         { id: 'none', label: 'None', url: '' },
-        { id: 'binding', label: 'Dark Binding', url: '/textures/binding-dark.png' },
+        // { id: 'binding', label: 'Dark Binding', url: '/textures/binding-dark.png' },
         { id: 'plaid', label: 'My Little Plaid Dark', url: '/textures/my-little-plaid-dark.png' },
         { id: 'nami', label: 'Nami', url: '/textures/nami.png' },
         { id: 'skulls', label: 'Skulls', url: '/textures/skulls.png' },
-        { id: 'soft-kill', label: 'Soft Kill', url: '/textures/soft-kill.png' },
-        { id: 'vichy', label: 'Vichy', url: '/textures/vichy.png' },
+        // { id: 'soft-kill', label: 'Soft Kill', url: '/textures/soft-kill.png' },
+        // { id: 'vichy', label: 'Vichy', url: '/textures/vichy.png' },
         { id: 'diamond', label: 'Diamond', url: '/textures/white-diamond-dark.png' },
     ];
 
@@ -77,6 +77,12 @@
         padding: 0.125rem;
         background-color: var(--clr-black, #333);
         color: hsl(from var(--clr-white, white) h s l / 0.5);
+
+    }
+
+    .filter-select:focus, .filter-option:focus {
+        outline: 1px solid var(--clr-blue, rebeccapurple);
+        border: none;
     }
 
     .filter-option {
