@@ -9,12 +9,12 @@
 <form action="?/submitMail" method="POST" use:enhance>
     <div class="grid">
         <input type="text" name="name" id="name" required />
-        <label style="--clr-label: var(--clr-yellow);" for="name">Your Name</label>
+        <label style="--clr-label: var(--clr-yellow);" for="name">Name</label>
     </div>
 
     <div class="grid">
         <input type="email" name="email" id="email" required />
-        <label style="--clr-label: var(--clr-yellow);" for="email">Your Email</label>
+        <label style="--clr-label: var(--clr-yellow);" for="email">Email</label>
     </div>
 
     <div class="grid">
@@ -45,6 +45,7 @@
     label {
         font-size: 1rem;
         color: var(--clr-label, #ddd);
+        color: hsl(from var(--clr-white, white) h s l / 0.5)
     }
 
     input, textarea {
