@@ -22,6 +22,7 @@ body {
     background-color: var(--clr-black);
     background-image: url(textures/binding-dark.png);
     background-repeat: repeat;
+    background-blend-mode: overlay;
     color: var(--clr-white);
     display: grid;
     grid-template-rows: auto 1fr auto;
