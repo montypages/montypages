@@ -48,6 +48,14 @@
         opacity: 0.7;
     }
 
+    button:disabled {
+        color:hsl(from currentColor h 0 l);
+
+        & > img {
+            filter: grayscale(100%);
+        }
+    }
+
     h2 {
         font-size: var(--step-1, 1.5rem);
         line-height: 1;

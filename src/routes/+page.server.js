@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import nodemailer from 'nodemailer'; // Example using Nodemailer
-import { CONTACT_EMAIL, FROM_EMAIL, SMTP_PASS, SMTP_USER } from '$env/static/private'; // Use environment variables for security
+import { CONTACT_EMAIL, FROM_EMAIL, SMTP_PASS, SMTP_USER, RECAPTCHA_SECRET_KEY } from '$env/static/private'; // Use environment variables for security
 
 export const actions = {
     submitMail: async ({ request }) => {
@@ -8,6 +8,24 @@ export const actions = {
         const name = formData.get('name');
         const email = formData.get('email');
         const message = formData.get('message');
+        const token = formData.get('g-recaptcha-response');
+
+        const secret = RECAPTCHA_SECRET_KEY;
+
+        const res = await fetch(
+            'https://www.google.com/recaptcha/api/siteverify',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `secret=${secret}&response=${token}`
+            }
+        );
+
+        const data = await res.json();
+
+        if (!data.success) {
+        return { success: false, error: 'reCAPTCHA failed' };
+        }
 
         // Perform basic server-side validation
         if (!name || !email || !message) {

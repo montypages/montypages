@@ -1,88 +1,38 @@
 <script>
+    import { onMount } from 'svelte';
     import { enhance } from '$app/forms'; // Import SvelteKit's enhance function for progressive enhancement
     import LogoButton from './logo-button.svelte';
-    import { Recaptcha, recaptcha, observer } from "svelte-recaptcha-v2";
-    /*
-    │Recaptcha: svelte <Recaptcha> component.
-    │recaptcha: google method, gives you recaptcha.execute().
-    │observer: allows you to track captcha state across components.
-    */
 
     const googleRecaptchaSiteKey="6Lc_c48sAAAAAIDHi-YA3zojszyiQ4luYWTf1x2Z";
+    let captchaCompleted = $state(false);
 
-    let captchaToken = null;
+    function handleCaptchaSuccess(token) {
+        console.log("Captcha completed:", token);
+        captchaCompleted = true;
+    }
 
-    const onCaptchaReady = (event) => {
-        /*
-        │You can enable your form button here.
-        */
-       captchaToken = event.detail.token;
-       console.log("recaptcha init has completed. Token: " + captchaToken);
-    };
+    function handleCaptchaExpired() {
+        console.log("Captcha expired");
+        captchaCompleted = false;
+    }
 
-    const onCaptchaSuccess = (event) => {
-        userTracker.resolve(event);
-        console.log("token received: " + event.detail.token);
-        /*
-        │If using checkbox method, you can attach your
-        │form logic here, or dispatch your custom event.
-        */
-    };
-
-    const onCaptchaError = (event) => {
-        console.log("recaptcha init has failed.");
-        /*
-        │Usually due to incorrect siteKey.
-        |Make sure you have the correct siteKey..
-        */
-    };
-
-    const onCaptchaExpire = (event) => {
-        console.log("recaptcha api has expired");
-        /*
-        │Normally, you wouldn't need to do anything.
-        │Recaptcha should reinit itself automatically.
-        */
-    };
-
-    const onCaptchaOpen = (event) => {
-        console.log("google decided to challange the user");
-        /*
-        │This fires when the puzzle frame pops.
-        */
-    };
-
-    const onCaptchaClose = (event) => {
-        console.log("google decided to challange the user");
-        /*
-        │This fires when the puzzle frame closes.
-        │Usually happens when the user clicks outside
-        |the modal frame.
-        */
-    };
-
-    const submitHandler = async () => {
-        console.log("launching recaptcha");
-        recaptcha.execute();
-
-        console.log("pending for google response");
-        const event = await Promise.resolve(observer);
-
-        const recaptchaToken = event.detail?.token ? event.detail.token : false;
-
-        if (!recaptchaToken) {
-            console.log("recaptcha is NOT OK");
-            return false;
-        }
-
-        console.log("token retrieved", recaptchaToken);
-    };
+    onMount(() => {
+        /** @type {any} */
+        const w = window;
+        // expose globally for reCAPTCHA
+        w.handleCaptchaSuccess = handleCaptchaSuccess;
+        w.handleCaptchaExpired = handleCaptchaExpired;
+    });
 
     let { form } = $props(); // Optional: bind to the form prop to access return values
 </script>
 
 <h2>Contact Us</h2>
-<form action="?/submitMail" method="POST" use:enhance>
+<form
+  action="?/submitMail"
+  method="POST"
+  use:enhance
+>
     <div class="grid">
         <input type="text" name="name" id="name" required />
         <label style="--clr-label: var(--clr-yellow);" for="name">Name</label>
@@ -98,20 +48,14 @@
         <label style="--clr-label: var(--clr-yellow);" for="message">Message</label>
     </div>
 
-    <Recaptcha
-    sitekey={googleRecaptchaSiteKey}
-    badge={"top"}
-    size={"invisible"}
-    on:success={onCaptchaSuccess}
-    on:error={onCaptchaError}
-    on:expired={onCaptchaExpire}
-    on:close={onCaptchaClose}
-    on:ready={onCaptchaReady} />
+    <div 
+        class="g-recaptcha" 
+        data-sitekey={googleRecaptchaSiteKey} 
+        data-callback="handleCaptchaSuccess"
+        data-expired-calleback="handleCaptchaExpired"
+    ></div>
 
-    <!-- Hidden input to send the token with your form -->
-    <input type="hidden" name="g-recaptcha-response" value={captchaToken} />
-
-    <LogoButton type="submit" buttonText="Get Started" disabled={!captchaToken}/>
+    <LogoButton type="submit" buttonText="Get Started" disabled={!captchaCompleted}/>
 
 </form>
 
