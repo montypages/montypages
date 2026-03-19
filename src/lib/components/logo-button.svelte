@@ -6,16 +6,18 @@
         onclick?: MouseEventHandler<HTMLButtonElement>;
         type?: "button" | "submit" | "reset" | null | undefined;
         buttonText: string;
+        disabled: boolean;
     }
 
     let { 
         onclick = () => {}, 
         type = undefined,
-        buttonText = "Click Here" 
+        buttonText = "Click Here",
+        disabled = false 
         }: Props = $props();
 </script>
 
-    <button {onclick} {type}>
+    <button {onclick} {type} {disabled}>
             <img class="cta-img" src={logoImg} alt="Monty Pages">
             <h2>{buttonText}</h2>
     </button>
