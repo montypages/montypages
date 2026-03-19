@@ -47,8 +47,13 @@
     }
 
     h2 {
+        font-size: var(--step-1, 1.5rem);
         line-height: 1;
         margin: 0;
         margin-right: 0.5em;
+    }
+
+    .cta-img {
+        width: var(--step-2);
     }
 </style>

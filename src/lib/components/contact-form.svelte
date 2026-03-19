@@ -22,9 +22,9 @@
         <label style="--clr-label: var(--clr-yellow);" for="message">Message</label>
     </div>
 
-    <div class="center">
-        <LogoButton type="submit" buttonText="Get Started" />
-    </div>
+    <LogoButton type="submit" buttonText="Get Started" />
+    <!-- <div class="center">
+    </div> -->
 </form>
 
 {#if form?.message}
