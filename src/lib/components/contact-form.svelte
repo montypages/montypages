@@ -5,7 +5,17 @@
 
     const googleRecaptchaSiteKey="6Lc_c48sAAAAAIDHi-YA3zojszyiQ4luYWTf1x2Z";
     let captchaCompleted = $state(false);
+    let isSubmitting = $state(false);
 
+    function handleSubmit() {
+        if (isSubmitting) {return};
+
+        isSubmitting = true;
+    }
+
+    /**
+     * @param {string} token
+     */
     function handleCaptchaSuccess(token) {
         console.log("Captcha completed:", token);
         captchaCompleted = true;
@@ -31,7 +41,15 @@
 <form
   action="?/submitMail"
   method="POST"
-  use:enhance
+  onsubmit={handleSubmit}
+  use:enhance={({ cancel }) => {
+    return async ({ update }) => {
+
+        await update();
+
+        isSubmitting = false;
+    }
+  }}
 >
     <div class="grid">
         <input type="text" name="name" id="name" required />
@@ -55,7 +73,12 @@
         data-expired-calleback="handleCaptchaExpired"
     ></div>
 
-    <LogoButton type="submit" buttonText="Get Started" disabled={!captchaCompleted}/>
+    <LogoButton 
+        type="submit" 
+        buttonText={isSubmitting ? "Processing..." : "Get Started"} 
+        disabled={!captchaCompleted || isSubmitting}
+        loading={isSubmitting}
+    />
 
 </form>
 

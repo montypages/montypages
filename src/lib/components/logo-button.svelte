@@ -7,18 +7,20 @@
         type?: "button" | "submit" | "reset" | null | undefined;
         buttonText: string;
         disabled: boolean;
+        loading: boolean;
     }
 
     let { 
         onclick = () => {}, 
         type = undefined,
         buttonText = "Click Here",
-        disabled = false 
+        disabled = false,
+        loading = false,
         }: Props = $props();
 </script>
 
     <button {onclick} {type} {disabled}>
-            <img class="cta-img" src={logoImg} alt="Monty Pages">
+            <img class="cta-img" class:spin={loading} src={logoImg} alt="Monty Pages">
             <h2>{buttonText}</h2>
     </button>
 
@@ -65,5 +67,19 @@
 
     .cta-img {
         width: var(--step-2);
+    }
+
+    .spin {
+        filter: grayscale(0%) !important;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>
