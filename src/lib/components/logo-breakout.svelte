@@ -5,36 +5,50 @@
    * LogoBreakout.svelte
    *
    * Scroll-driven shape breakout animation for the Monty Pages logo.
-   * The 6 logo shapes sit invisibly over the static SVG logo at section 0,
-   * then float out to hand-tuned positions as the user scrolls through sections.
+   * The 4 active shapes (urlbar, circle, red, teal) sit invisibly over the
+   * static SVG logo at section 0, then spring to caller-supplied anchor
+   * positions as the user scrolls through sections.
    *
-   * @prop {number} section - Active section index (0 = hero, 1 = second, 2 = third)
-   * @prop {number} logoX   - Left edge of the static logo in viewport px (default 40)
-   * @prop {number} logoY   - Top edge of the static logo in viewport px (default 40)
+   * @prop {number}       section - Active section index (0 = hero, 1+= content sections)
+   * @prop {number}       logoX   - Left edge of the static logo in viewport px (default 40)
+   * @prop {number}       logoY   - Top edge of the static logo in viewport px (default 40)
+   * @prop {SectionAnchors[]} anchors - Destination positions per section (index 0 = hero/locked)
    */
-  let { section = 0, logoX = 40, logoY = 40 } = $props();
 
   // ─── Types ────────────────────────────────────────────────────────────────
 
   /**
-   * @typedef {Object} ShapeDefinition
-   * @property {string}          id      - Unique key matching a key in `destinations`
-   * @property {number}          w       - Width in px
-   * @property {number}          h       - Height in px
-   * @property {string}          bg      - CSS background colour
-   * @property {string}          border  - CSS border shorthand
-   * @property {number}          rx      - Border-radius in px
-   * @property {number}          ox      - X offset from logoX when locked
-   * @property {number}          oy      - Y offset from logoY when locked
-   * @property {string}          [clip]  - Optional CSS clip-path value
+   * Absolute viewport position + transform for one shape at one point in time.
+   *
+   * @typedef {Object} SpringTarget
+   * @property {number} x      - Viewport X position (px from left)
+   * @property {number} y      - Viewport Y position (px from top)
+   * @property {number} scale  - Uniform scale factor
+   * @property {number} rotate - Rotation in degrees
    */
 
   /**
-   * @typedef {Object} SpringTarget
-   * @property {number} x      - Absolute viewport X position (px)
-   * @property {number} y      - Absolute viewport Y position (px)
-   * @property {number} scale  - Uniform scale factor
-   * @property {number} rotate - Rotation in degrees
+   * Anchor positions for all 4 shapes at a single section.
+   * Declare one of these per page section and pass the array as `anchors`.
+   *
+   * @typedef {Record<ShapeId, SpringTarget>} SectionAnchors
+   */
+
+    /**
+     * @typedef {'urlbar' | 'circle' | 'red' | 'teal'} ShapeId
+     */
+
+  /**
+   * @typedef {Object} ShapeDefinition
+   * @property {ShapeId} id     - Key matching a property of SectionAnchors
+   * @property {number} w      - Width in px
+   * @property {number} h      - Height in px
+   * @property {string} bg     - CSS background colour
+   * @property {string} border - CSS border shorthand
+   * @property {number} rx     - Border-radius in px
+   * @property {number} ox     - X offset from logoX when locked (section 0)
+   * @property {number} oy     - Y offset from logoY when locked (section 0)
+   * @property {string} [clip] - Optional CSS clip-path value
    */
 
   /**
@@ -43,153 +57,84 @@
    * @property {number} damping   - Spring damping  (lower = more overshoot)
    */
 
-  // ─── Logo geometry ────────────────────────────────────────────────────────
-  // Tuned to a ~192 × 88 px rendered logo (SVG viewBox ≈ 54mm × 26mm @ 96dpi × 0.74).
-  // Offsets (ox, oy) are relative to (logoX, logoY).
+  /** @type {{ section?: number, logoX?: number, logoY?: number, anchors: SectionAnchors[] }} */
+  let { section = 0, logoX = 40, logoY = 40, anchors } = $props();
+
+  // ─── Shape definitions ────────────────────────────────────────────────────
+  // Only the 4 shapes that break out. Offsets (ox, oy) place them over the
+  // static SVG logo at section 0 (opacity 0, so they're invisible until launch).
 
   /** @type {ShapeDefinition[]} */
-  const shapeBase = [
-    // // Dark screen rectangle
-    // {
-    //   id: 'screen',
-    //   w: 85,  h: 50,
-    //   bg: '#0c120c',
-    //   border: '1.5px solid #4d4d4d',
-    //   rx: 3,
-    //   ox: 0,   oy: 0,
-    // },
-    // // Light base bar
-    // {
-    //   id: 'base',
-    //   w: 109, h: 4,
-    //   bg: '#f0eff4',
-    //   border: '1px solid #888',
-    //   rx: 2,
-    //   ox: -11, oy: 52,
-    // },
-    // Yellow URL bar
+  const shapes = [
     {
       id: 'urlbar',
       w: 65,  h: 9,
       bg: '#f9cb40',
       border: 'none',
       rx: 1,
-      ox: 9,   oy: 7,
+      ox: 9,  oy: 7,
     },
-    // White circle
     {
       id: 'circle',
       w: 26,  h: 26,
       bg: '#f0eff4',
       border: 'none',
       rx: 13,
-      ox: 52,  oy: 24,
+      ox: 52, oy: 24,
     },
-    // Red rectangle
     {
       id: 'red',
       w: 38,  h: 23,
       bg: '#c20114',
       border: 'none',
       rx: 0,
-      ox: 9,   oy: 24,
-      clip: 'polygon(0% 0%, 100% 0%, 0% 100%)',
+      ox: 9,  oy: 24,
     },
-    // Teal triangle (clip-path simulates the SVG path)
     {
       id: 'teal',
       w: 38,  h: 23,
       bg: '#048ba8',
       border: 'none',
       rx: 0,
-      ox: 47,  oy: 24,
+      ox: 47, oy: 24,
       clip: 'polygon(100% 0%, 0% 100%, 100% 100%)',
     },
   ];
 
-  // ─── Per-section destinations ─────────────────────────────────────────────
-  // x/y are absolute fixed-viewport positions (px from top-left).
-  // Hand-tuned for a ~1280px wide layout — adjust to taste.
-  //
-  // Index 0 → logo-locked (shapes overlay the static SVG, opacity 0)
-  // Index 1 → break out across the page
-  // Index 2 → settle into final decorative positions
-
-  /** @type {Record<string, SpringTarget[]>} */
-  const destinations = $derived({
-    // screen: [
-    //   { x: logoX,        y: logoY,        scale: 1,    rotate: 0   },  // s0: locked
-    //   { x: -30,          y: 120,          scale: 3.2,  rotate: -8  },  // s1
-    //   { x: 820,          y: 60,           scale: 2.4,  rotate: 6   },  // s2
-    // ],
-    // base: [
-    //   { x: logoX - 11,   y: logoY + 52,   scale: 1,    rotate: 0   },
-    //   { x: 600,          y: 520,          scale: 2.8,  rotate: 4   },
-    //   { x: -20,          y: 580,          scale: 2,    rotate: -3  },
-    // ],
-    urlbar: [
-      { x: logoX + 9,    y: logoY + 7,    scale: 1,    rotate: 0   },
-      { x: 680,          y: 90,           scale: 4,    rotate: 12  },
-      { x: 400,          y: 480,          scale: 3.5,  rotate: -8  },
-    ],
-    circle: [
-      { x: logoX + 52,   y: logoY + 24,   scale: 1,    rotate: 0   },
-      { x: 820,          y: 340,          scale: 5,    rotate: 0   },
-      { x: 100,          y: 200,          scale: 4,    rotate: 0   },
-    ],
-    red: [
-      { x: logoX + 9,    y: logoY + 24,   scale: 1,    rotate: 0   },
-      { x: 200,          y: 480,          scale: 3.5,  rotate: -15 },
-      { x: 750,          y: 300,          scale: 2.8,  rotate: 10  },
-    ],
-    teal: [
-      { x: logoX + 47,   y: logoY + 24,   scale: 1,    rotate: 0   },
-      { x: 480,          y: 180,          scale: 4.5,  rotate: 20  },
-      { x: 200,          y: 360,          scale: 3,    rotate: -12 },
-    ],
-  });
-
   // ─── Spring instances (one per shape, varied feel) ────────────────────────
-  // Lower stiffness + lower damping = more floaty overshoot.
-  // The new Svelte 5 API uses `new Spring(initialValue, options)`.
-  // Read animated values via `.current` — no `$` store prefix needed.
 
   /** @type {SpringConfig[]} */
   const springConfigs = [
-    { stiffness: 0.04, damping: 0.28 },   // screen  – slow, drifty
-    { stiffness: 0.06, damping: 0.32 },   // base    – medium
-    { stiffness: 0.05, damping: 0.25 },   // urlbar  – bouncy
-    { stiffness: 0.03, damping: 0.22 },   // circle  – very floaty
-    { stiffness: 0.07, damping: 0.30 },   // red     – snappier
-    { stiffness: 0.04, damping: 0.26 },   // teal    – floaty + slight overshoot
+    { stiffness: 0.05, damping: 0.25 },   // urlbar – bouncy
+    { stiffness: 0.03, damping: 0.22 },   // circle – very floaty
+    { stiffness: 0.07, damping: 0.30 },   // red    – snappier
+    { stiffness: 0.04, damping: 0.26 },   // teal   – floaty + slight overshoot
   ];
 
   /** @type {Spring<SpringTarget>[]} */
-  const springs = shapeBase.map((sh, i) => {
-    /** @type {SpringTarget} */
-    const dest = destinations[sh.id][0];
-    return new Spring(
-      { x: dest.x, y: dest.y, scale: dest.scale, rotate: dest.rotate },
+  const springs = shapes.map((sh, i) =>
+    new Spring(
+      { x: logoX + sh.ox, y: logoY + sh.oy, scale: 1, rotate: 0 },
       springConfigs[i]
-    );
-  });
+    )
+  );
 
-  // ─── React to section changes ─────────────────────────────────────────────
+  // ─── React to section + anchor changes ───────────────────────────────────
 
   $effect(() => {
     /** @type {number} */
-    const idx = Math.min(Math.max(section, 0), 2);
+    const idx = Math.min(Math.max(section, 0), anchors.length - 1);
 
-    shapeBase.forEach((sh, i) => {
+    shapes.forEach((sh, i) => {
       /** @type {SpringTarget} */
-      const dest = destinations[sh.id][idx];
-      springs[i].set({ x: dest.x, y: dest.y, scale: dest.scale, rotate: dest.rotate });
+      const dest = anchors[idx][sh.id];
+      springs[i].set(dest);
     });
   });
 
   // ─── Opacity ──────────────────────────────────────────────────────────────
-  // Section 0: shapes invisible (static logo shows through).
-  // Section 1+: shapes fully visible as they drift away.
+  // Section 0: invisible (static logo shows through).
+  // Section 1+: fully visible as shapes drift to their anchors.
 
   /** @type {number} */
   const targetOpacity = $derived(section === 0 ? 0 : 1);
@@ -204,7 +149,7 @@
   class="logo-breakout-layer"
   aria-hidden="true"
 >
-  {#each shapeBase as sh, i}
+  {#each shapes as sh, i}
     {@const s = springs[i].current}
     <div
       class="floating-shape"
