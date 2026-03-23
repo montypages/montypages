@@ -29,7 +29,7 @@ export const actions = {
 
         // Perform basic server-side validation
         if (!name || !email || !message) {
-            return fail(400, { missing: true, message: 'All fields are required.' });
+            return fail(400, { missing: true, message: '<p>All fields are required.</p>' });
         }
 
         // Use a third-party service or NodeMailer to send the email
@@ -54,10 +54,13 @@ export const actions = {
                     <p>Message: ${message}</p>
                 `
             });
-            return { success: true, message: 'Message sent successfully!' };
+            return { success: true, message: `
+                <h2>Thanks for reaching out!</h2>
+                <p>We aim to get back to you within 2 business days.</p>
+                ` };
         } catch (error) {
             console.error(error);
-            return fail(500, { error: true, message: 'Failed to send message.' });
+            return fail(500, { error: true, message: '<p>Failed to send message.</p>' });
         }
     }
 };

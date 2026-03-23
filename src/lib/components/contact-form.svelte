@@ -37,6 +37,7 @@
     let { form } = $props(); // Optional: bind to the form prop to access return values
 </script>
 
+{#if !form?.success}
 <h2>Contact Us</h2>
 <form
   action="?/submitMail"
@@ -81,9 +82,10 @@
     />
 
 </form>
+{/if}
 
 {#if form?.message}
-    <p>{form.message}</p>
+    <div>{@html form.message}</div>
 {/if}
 
 <style>
