@@ -11,4 +11,10 @@
         </div>
     </header>
 
-<style></style>
+<style>
+    header {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+</style>
