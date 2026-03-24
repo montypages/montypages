@@ -1,5 +1,9 @@
 html {
     box-sizing: border-box;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+
     --clr-black: #0C120C;
     --clr-red: #C20114;
     --clr-yellow: #F9CB40;
@@ -8,12 +12,12 @@ html {
     --heading-font: "Stack Sans Notch", sans-serif;
     --text-font: "Stack Sans Text", sans-serif;
 
-  --step-0: clamp(0.875rem, 0.7216rem + 0.6818vw, 1.25rem);
-  --step-1: clamp(1.05rem, 0.7125rem + 1.5vw, 1.875rem);
-  --step-2: clamp(1.26rem, 0.6249rem + 2.8227vw, 2.8125rem);
-  --step-3: clamp(1.512rem, 0.4047rem + 4.9214vw, 4.2188rem);
-  --step-4: clamp(1.8144rem, -0.0321rem + 8.2068vw, 6.3281rem);
-  --step-5: clamp(2.1773rem, -0.8152rem + 13.2998vw, 9.4922rem);
+    --step-0: clamp(0.875rem, 0.7216rem + 0.6818vw, 1.25rem);
+    --step-1: clamp(1.05rem, 0.7125rem + 1.5vw, 1.875rem);
+    --step-2: clamp(1.26rem, 0.6249rem + 2.8227vw, 2.8125rem);
+    --step-3: clamp(1.512rem, 0.4047rem + 4.9214vw, 4.2188rem);
+    --step-4: clamp(1.8144rem, -0.0321rem + 8.2068vw, 6.3281rem);
+    --step-5: clamp(2.1773rem, -0.8152rem + 13.2998vw, 9.4922rem);
 }
 
 body {
@@ -25,6 +29,10 @@ body {
     color: var(--clr-white);
     display: grid;
     grid-template-rows: auto 1fr auto;
+}
+
+.section {
+    scroll-snap-align: center;
 }
 
 footer {

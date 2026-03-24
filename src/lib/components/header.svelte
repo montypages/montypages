@@ -2,7 +2,7 @@
     const headerImg = "src/lib/assets/logo-1.svg";
 </script>
 
-    <header data-section="0">
+    <header data-section="0" class="section">
         <div class="container wide">
             <div class="logo">
                 <img class="logo-img" src={headerImg} alt="Monty Pages">

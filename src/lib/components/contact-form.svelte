@@ -34,11 +34,11 @@
         w.handleCaptchaExpired = handleCaptchaExpired;
     });
 
-    let { form } = $props(); // Optional: bind to the form prop to access return values
+    let { form, heading = $bindable(), input1 = $bindable(), input2 = $bindable(), input3 = $bindable() } = $props(); // Optional: bind to the form prop to access return values
 </script>
 
 {#if !form?.success}
-<h2>Contact Us</h2>
+<h2 bind:this={heading}>Contact Us</h2>
 <form
   action="?/submitMail"
   method="POST"
@@ -52,17 +52,17 @@
     }
   }}
 >
-    <div class="grid">
+    <div class="grid" bind:this={input1}>
         <input type="text" name="name" id="name" required />
         <label style="--clr-label: var(--clr-yellow);" for="name">Name</label>
     </div>
 
-    <div class="grid">
+    <div class="grid" bind:this={input2}>
         <input type="email" name="email" id="email" required />
         <label style="--clr-label: var(--clr-yellow);" for="email">Email</label>
     </div>
 
-    <div class="grid">
+    <div class="grid" bind:this={input3}>
         <textarea name="message" id="message" rows="5" required></textarea>
         <label style="--clr-label: var(--clr-yellow);" for="message">Message</label>
     </div>
