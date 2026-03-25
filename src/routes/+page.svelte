@@ -61,12 +61,12 @@
 		// Reference scrollY so this derived re-runs on every scroll tick
 		void scrollY;
 
-    /** @type {HTMLElement[]}  */
-    const floatingShapes = document.querySelectorAll('.floating-shape');
-    const u = rect(floatingShapes[0]);
-    const c = rect(floatingShapes[1]);
-    const r = rect(floatingShapes[2]);
-    const t = rect(floatingShapes[3]);
+
+    // const floatingShapes = document.querySelectorAll('.floating-shape');
+    // const u = rect(floatingShapes[0]);
+    // const c = rect(floatingShapes[1]);
+    // const r = rect(floatingShapes[2]);
+    // const t = rect(floatingShapes[3]);
 
 		//   Section 1 anchors
 		const h = rect(section1Heading);
@@ -93,7 +93,7 @@
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// center of h2 bottom
 				teal: h
-					? { x: h.left + h.width - t.width / 2, y: h.bottom - 43, scale: 2, rotate: 25 }
+					? { x: h.left + h.width / 2, y: h.bottom - 43, scale: 2, rotate: 25 }
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// right edge of h2 bottom
 				urlbar: h
