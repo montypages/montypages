@@ -54,7 +54,7 @@
 			border: 'none',
 			rx: 1,
 			ox: 9,
-			oy: 7
+			oy: 7,
 		},
 		{
 			id: 'circle',
@@ -97,7 +97,7 @@
 		{ stiffness: 0.05, damping: 0.25 }, // urlbar – bouncy
 		{ stiffness: 0.03, damping: 0.22 }, // circle – very floaty
 		{ stiffness: 0.07, damping: 0.3 }, // red    – snappier
-		{ stiffness: 0.04, damping: 0.26 } // teal   – floaty + slight overshoot
+		{ stiffness: 0.02, damping: 0.26 } // teal   – floaty + slight overshoot
 	];
 
 	/** @type {Spring<SpringTarget>[]} */
@@ -146,6 +146,10 @@
         clip-path: {sh.clip ?? 'none'};
         transform: translate({s.x}px, {s.y}px) scale({s.scale}) rotate({s.rotate}deg);
         opacity: {targetOpacity};
+		--delayX: {i * 777}ms;
+		--delayY: {i * 360}ms;
+		--durX: {10 / (i + 1)}s;
+		--durY: {11 / (i + 1)}s;
       "
 		></div>
 	{/each}
@@ -165,7 +169,22 @@
 		top: 0;
 		left: 0;
 		will-change: transform, opacity;
-		transition: opacity 0.6s ease;
+		transition: opacity 300ms ease;
 		transform-origin: top left;
+		animation: hoverX var(--durX, 3s) ease var(--delayX, 0s) infinite alternate,
+				   hoverY var(--durY, 4s) ease var(--delayY, 0s) infinite alternate;
+		animation-composition: add;
+	}
+
+	@keyframes hoverX {
+		to {
+			transform: translateX(-3px);
+		}
+	}
+
+	@keyframes hoverY {
+		to {
+			transform: translateY(3px);
+		}
 	}
 </style>

@@ -82,15 +82,15 @@
 			{
 				// left edge of h2, aligned to its bottom
 				red: h
-					? { x: h.left + 70, y: h.bottom, scale: 2, rotate: 10 }
+					? { x: h.left + 70, y: h.bottom - 12, scale: 2, rotate: 10 }
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// center of h2 bottom
 				teal: h
-					? { x: h.left + h.width / 2 - 19, y: h.bottom - 33, scale: 2, rotate: 25 }
+					? { x: h.left + h.width / 2 - 19, y: h.bottom - 43, scale: 2, rotate: 25 }
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// right edge of h2 bottom
 				urlbar: h
-					? { x: h.right - 200, y: h.bottom - 9, scale: 1.5, rotate: 3 }
+					? { x: h.right - 200, y: h.bottom - 9, scale: 2, rotate: 3 }
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// top-left corner of the paragraph
 				circle: p
@@ -109,7 +109,7 @@
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// right edge of h2 bottom
 				urlbar: formH
-					? { x: formH.left + formH.width / 2 - 80, y: formH.bottom - 9, scale: 2.5, rotate: -3 }
+					? { x: formH.left + formH.width / 2 - 80, y: formH.bottom - 9, scale: 2.5, rotate: -357 }
 					: { x: -200, y: 0, scale: 1, rotate: 0 },
 				// top-left corner of the paragraph
 				circle: formMessage
