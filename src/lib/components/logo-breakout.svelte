@@ -52,7 +52,7 @@
 			h: 9,
 			bg: '#f9cb40',
 			border: 'none',
-			rx: 1,
+			rx: 2,
 			ox: 9,
 			oy: 7,
 		},
@@ -62,7 +62,7 @@
 			h: 26,
 			bg: '#f0eff4',
 			border: 'none',
-			rx: 13,
+			rx: 2000,
 			ox: 52,
 			oy: 24
 		},
@@ -138,8 +138,8 @@
 		<div
 			class="floating-shape"
 			style="
-        width: {sh.w}px;
-        height: {sh.h}px;
+        width: calc(var(--step-0, 1rem) * {sh.w / 20});
+        height: calc(var(--step-0, 1rem) * {sh.h / 20});
         background: {sh.bg};
         border: {sh.border};
         border-radius: {sh.rx}px;
