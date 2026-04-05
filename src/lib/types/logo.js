@@ -35,7 +35,7 @@ export const SHAPE_DIMS = {
  */
 export function calcDim(shapeDim) {
   const min = (shapeDim * 0.875).toFixed(2);
-  const max = (shapeDim * 2.25).toFixed(2);
+  const max = (shapeDim * 1.75).toFixed(2);
   const preferred = (shapeDim * 0.18).toFixed(4); // vw factor — tune this
   return `clamp(${min}px, ${preferred}vw, ${max}px)`;
 };

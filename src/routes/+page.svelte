@@ -95,38 +95,38 @@
 			{
 				// left edge of h2, aligned to its bottom
 				red: h
-					? { x: h.left + redW / 2, y: h.bottom - redH / 2, scale: 1, rotate: 10 }
+					? { x: h.left + redW * 0.5, y: h.bottom + h.height * 0.03 - redH * 0.5, scale: 1, rotate: 10 }
 					: offscreen,
 				// center of h2 bottom
 				teal: h
-					? { x: h.left + h.width / 2 - tealW / 2, y: h.bottom - tealH, scale: 1, rotate: 25 }
+					? { x: h.left + h.width * 0.5 - tealW * 0.5, y: h.bottom - h.height * 0.4 - tealH * 0.5, scale: 1, rotate: 25 }
 					: offscreen,
 				// right edge of h2 bottom
 				urlbar: h
-					? { x: h.right - urlbarW - 40, y: h.bottom - urlbarH, scale: 1, rotate: 3 }
+					? { x: h.right - h.width * 0.1 - urlbarW, y: h.bottom - urlbarH * 0.5, scale: 1, rotate: 3 }
 					: offscreen,
 				// top-left corner of the paragraph
 				circle: h
-					? { x: h.left - circleW * 2, y: h.top, scale: 1, rotate: 0 }
+					? { x: h.left - h.width * 0.05 - circleW, y: h.top, scale: 1, rotate: 0 }
 					: offscreen
 			},
 			// Section 2 — contact: shapes move to new decorative positions
 			{
 				// left edge of h2, aligned to its bottom
 				red: formName
-					? { x: formName.left + redW * 2, y: formName.bottom + redH / 2, scale: 1, rotate: 202 }
+					? { x: formName.left + formName.width * 0.07 + redW * 1.4, y: formName.bottom + formName.height * 1.2 - redH * 3.3, scale: 1, rotate: 202 }
 					: offscreen,
 				// center of h2 bottom
 				teal: formEmail
-					? { x: formEmail.left + tealW * 1.5, y: formEmail.bottom - tealH - 14, scale: 1, rotate: 21 }
+					? { x: formEmail.left + formEmail.width * 0.05 + tealW, y: formEmail.bottom - formEmail.height * 1.95 + tealH * 4, scale: 1, rotate: 21 }
 					: offscreen,
 				// right edge of h2 bottom
 				urlbar: formH
-					? { x: formH.left + formH.width / 2 - urlbarW / 2, y: formH.bottom, scale: 1, rotate: -357 }
+					? { x: formH.left + formH.width * 0.5 - urlbarW * 0.7, y: formH.bottom, scale: 1, rotate: -357 }
 					: offscreen,
 				// top-left corner of the paragraph
 				circle: formMessage
-					? { x: formMessage.left + circleW * 2, y: formMessage.bottom - circleH +7, scale: 1, rotate: 0 }
+					? { x: formMessage.left + formMessage.width * 0.015 + circleW * 3, y: formMessage.bottom - circleH, scale: 1, rotate: 0 }
 					: offscreen
 			},
 		];
