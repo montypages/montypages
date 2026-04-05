@@ -1,6 +1,7 @@
 <script>
 	import { Spring } from 'svelte/motion';
-	/** @import { ShapeId, SpringTarget, SectionAnchors } from '$lib/types/logo.js' */
+	/** @import { ShapeId, SpringTarget, SectionAnchors, ShapeDimensions } from '$lib/types/logo.js' */
+    import { SHAPE_DIMS, calcDim } from '$lib/types/logo.js';
 
 	/**
 	 * LogoBreakout.svelte
@@ -48,8 +49,7 @@
 	const shapes = [
 		{
 			id: 'urlbar',
-			w: 65,
-			h: 9,
+			...SHAPE_DIMS.urlbar,
 			bg: '#f9cb40',
 			border: 'none',
 			rx: 2,
@@ -58,8 +58,7 @@
 		},
 		{
 			id: 'circle',
-			w: 26,
-			h: 26,
+			...SHAPE_DIMS.circle,
 			bg: '#f0eff4',
 			border: 'none',
 			rx: 2000,
@@ -68,8 +67,7 @@
 		},
 		{
 			id: 'red',
-			w: 38,
-			h: 23,
+			...SHAPE_DIMS.red,
 			bg: '#c20114',
 			border: 'none',
 			rx: 0,
@@ -79,8 +77,7 @@
 		},
 		{
 			id: 'teal',
-			w: 38,
-			h: 23,
+			...SHAPE_DIMS.teal,
 			bg: '#048ba8',
 			border: 'none',
 			rx: 0,
@@ -138,8 +135,8 @@
 		<div
 			class="floating-shape"
 			style="
-        width: calc(var(--step-0, 1rem) * {sh.w / 20});
-        height: calc(var(--step-0, 1rem) * {sh.h / 20});
+        width: {calcDim(sh.w)};
+        height: {calcDim(sh.h)};
         background: {sh.bg};
         border: {sh.border};
         border-radius: {sh.rx}px;

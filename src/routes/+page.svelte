@@ -5,6 +5,7 @@
 	import LogoBreakout from '$lib/components/logo-breakout.svelte';
 	import { onMount } from 'svelte';
 	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
+	import { SHAPE_DIMS, scaleDim } from '$lib/types/logo.js';
 
 	let { form } = $props();
 	let currentSection = $state(0);
@@ -60,13 +61,18 @@
 	const anchors = $derived.by(() => {
 		// Reference scrollY so this derived re-runs on every scroll tick
 		void scrollY;
+    	const offscreen = { x: -200, y: 0, scale: 1, rotate: 0 };
+		const vw = innerWidth.current ?? 1280;
 
-
-    // const floatingShapes = document.querySelectorAll('.floating-shape');
-    // const u = rect(floatingShapes[0]);
-    // const c = rect(floatingShapes[1]);
-    // const r = rect(floatingShapes[2]);
-    // const t = rect(floatingShapes[3]);
+		// Scaled dimensions for positioning math
+		const urlbarW = scaleDim(SHAPE_DIMS.urlbar.w, vw);
+		const urlbarH = scaleDim(SHAPE_DIMS.urlbar.h, vw);
+		const tealW   = scaleDim(SHAPE_DIMS.teal.w, vw);
+		const tealH   = scaleDim(SHAPE_DIMS.teal.h, vw);
+		const redW    = scaleDim(SHAPE_DIMS.red.w, vw);
+		const redH    = scaleDim(SHAPE_DIMS.red.h, vw);
+		const circleW = scaleDim(SHAPE_DIMS.circle.w, vw);
+		const circleH = scaleDim(SHAPE_DIMS.circle.h, vw);
 
 		//   Section 1 anchors
 		const h = rect(section1Heading);
@@ -89,39 +95,39 @@
 			{
 				// left edge of h2, aligned to its bottom
 				red: h
-					? { x: h.left + 70, y: h.bottom - 12, scale: 2, rotate: 10 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 },
+					? { x: h.left + redW / 2, y: h.bottom - redH / 2, scale: 1, rotate: 10 }
+					: offscreen,
 				// center of h2 bottom
 				teal: h
-					? { x: h.left + h.width / 2, y: h.bottom - 43, scale: 2, rotate: 25 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 },
+					? { x: h.left + h.width / 2 - tealW / 2, y: h.bottom - tealH, scale: 1, rotate: 25 }
+					: offscreen,
 				// right edge of h2 bottom
 				urlbar: h
-					? { x: h.right - 200, y: h.bottom - 9, scale: 2, rotate: 3 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 },
+					? { x: h.right - urlbarW - 40, y: h.bottom - urlbarH, scale: 1, rotate: 3 }
+					: offscreen,
 				// top-left corner of the paragraph
-				circle: p
-					? { x: p.left - 50, y: p.top - 4, scale: 1.5, rotate: 0 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 }
+				circle: h
+					? { x: h.left - circleW * 2, y: h.top, scale: 1, rotate: 0 }
+					: offscreen
 			},
 			// Section 2 — contact: shapes move to new decorative positions
 			{
 				// left edge of h2, aligned to its bottom
 				red: formName
-					? { x: formName.left - 70, y: formName.top, scale: 2, rotate: 12 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 },
+					? { x: formName.left + redW * 2, y: formName.bottom + redH / 2, scale: 1, rotate: 202 }
+					: offscreen,
 				// center of h2 bottom
 				teal: formEmail
-					? { x: formEmail.left, y: formEmail.top + 60, scale: 2, rotate: 187 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 },
+					? { x: formEmail.left + tealW * 1.5, y: formEmail.bottom - tealH - 14, scale: 1, rotate: 21 }
+					: offscreen,
 				// right edge of h2 bottom
 				urlbar: formH
-					? { x: formH.left + formH.width / 2 - 80, y: formH.bottom - 9, scale: 2.5, rotate: -357 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 },
+					? { x: formH.left + formH.width / 2 - urlbarW / 2, y: formH.bottom, scale: 1, rotate: -357 }
+					: offscreen,
 				// top-left corner of the paragraph
 				circle: formMessage
-					? { x: formMessage.left - 50, y: formMessage.top - 4, scale: 1.5, rotate: 0 }
-					: { x: -200, y: 0, scale: 1, rotate: 0 }
+					? { x: formMessage.left + circleW * 2, y: formMessage.bottom - circleH +7, scale: 1, rotate: 0 }
+					: offscreen
 			},
 		];
 	});
