@@ -7,6 +7,7 @@
             <div class="logo">
                 <img class="logo-img" src={headerImg} alt="Monty Pages">
                 <h1 class="logo-text">Monty Pages</h1>
+                <h2>Beautiful Custom Websites</h2>
             </div>
         </div>
     </header>

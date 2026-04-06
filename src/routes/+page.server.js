@@ -56,7 +56,8 @@ export const actions = {
             });
             return { success: true, message: `
                 <h2>Thanks for reaching out!</h2>
-                <p>We aim to get back to you within 2 business days.</p>
+                <p>We aim to get back to you within 1 business day.</p>
+                <img src='src/lib/assets/logo-2.svg' width=200 height=auto alt='Monty Pages'>
                 ` };
         } catch (error) {
             console.error(error);

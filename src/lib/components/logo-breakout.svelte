@@ -30,6 +30,7 @@
 	 * @property {number} ox     - X offset from logoX when locked (section 0)
 	 * @property {number} oy     - Y offset from logoY when locked (section 0)
 	 * @property {string} [clip] - Optional CSS clip-path value
+	 * @property {string} transformOrigin - define the point of rotation and scale
 	 */
 
 	/**
@@ -55,6 +56,7 @@
 			rx: 2,
 			ox: 9,
 			oy: 7,
+			transformOrigin: '50% 50%',
 		},
 		{
 			id: 'circle',
@@ -63,7 +65,8 @@
 			border: 'none',
 			rx: 2000,
 			ox: 52,
-			oy: 24
+			oy: 24,
+			transformOrigin: '50% 50%',
 		},
 		{
 			id: 'red',
@@ -73,7 +76,8 @@
 			rx: 0,
 			ox: 9,
 			oy: 24,
-            clip: 'polygon(0% 0%, 100% 0%, 0% 100%)'
+            clip: 'polygon(0% 0%, 100% 0%, 0% 100%)',
+			transformOrigin: '100% 0%',
 		},
 		{
 			id: 'teal',
@@ -83,7 +87,8 @@
 			rx: 0,
 			ox: 47,
 			oy: 24,
-			clip: 'polygon(100% 0%, 0% 100%, 100% 100%)'
+			clip: 'polygon(100% 0%, 0% 100%, 100% 100%)',
+			transformOrigin: '0% 100%',
 		}
 	];
 
@@ -141,6 +146,7 @@
         border: {sh.border};
         border-radius: {sh.rx}px;
         clip-path: {sh.clip ?? 'none'};
+		transform-origin: {sh.transformOrigin};
         transform: translate({s.x}px, {s.y}px) scale({s.scale}) rotate({s.rotate}deg);
         opacity: {targetOpacity};
 		--delayX: {i * 777}ms;

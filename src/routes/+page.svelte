@@ -7,6 +7,10 @@
 	import { innerWidth, innerHeight } from 'svelte/reactivity/window';
 	import { SHAPE_DIMS, scaleDim } from '$lib/types/logo.js';
 
+	/** @import { FormState } from '$lib/types/logo'*/
+
+	/** @type {FormState} formState */
+	let formState = $state('idle');
 	let { form } = $props();
 	let currentSection = $state(0);
 	/**
@@ -28,17 +32,23 @@
 	/** @type {HTMLParagraphElement | null} */
 	let section1Para = $state(null);
 
-	/** @type {HTMLParagraphElement | null} */
+	/** @type {HTMLHeadingElement | null} */
 	let formSectionHeading = $state(null);
 
-	/** @type {HTMLParagraphElement | null} */
+	/** @type {HTMLLabelElement | null} */
 	let formSectionName = $state(null);
 
-	/** @type {HTMLParagraphElement | null} */
+	/** @type {HTMLLabelElement | null} */
 	let formSectionEmail = $state(null);
 
-	/** @type {HTMLParagraphElement | null} */
+	/** @type {HTMLLabelElement | null} */
 	let formSectionMessage = $state(null);
+
+	/** @type {HTMLDivElement | null} */
+	let btnContainer = $state(null);
+
+	/** @type {HTMLDivElement | null} */
+	let msgDiv = $state(null);
 
 	// ─── Live anchor computation ──────────────────────────────────────────────
 	// Recomputes on every scroll tick so shapes track their target elements
@@ -61,16 +71,17 @@
 	const anchors = $derived.by(() => {
 		// Reference scrollY so this derived re-runs on every scroll tick
 		void scrollY;
-    	const offscreen = { x: -200, y: 0, scale: 1, rotate: 0 };
 		const vw = innerWidth.current ?? 1280;
+		const offscreenLeft = { x: -200, y: 0, scale: 1, rotate: 0 };
+		const offscreenRight = { x: vw + 400, y: 0, scale: 0, rotate: 720 };
 
 		// Scaled dimensions for positioning math
 		const urlbarW = scaleDim(SHAPE_DIMS.urlbar.w, vw);
 		const urlbarH = scaleDim(SHAPE_DIMS.urlbar.h, vw);
-		const tealW   = scaleDim(SHAPE_DIMS.teal.w, vw);
-		const tealH   = scaleDim(SHAPE_DIMS.teal.h, vw);
-		const redW    = scaleDim(SHAPE_DIMS.red.w, vw);
-		const redH    = scaleDim(SHAPE_DIMS.red.h, vw);
+		const tealW = scaleDim(SHAPE_DIMS.teal.w, vw);
+		const tealH = scaleDim(SHAPE_DIMS.teal.h, vw);
+		const redW = scaleDim(SHAPE_DIMS.red.w, vw);
+		const redH = scaleDim(SHAPE_DIMS.red.h, vw);
 		const circleW = scaleDim(SHAPE_DIMS.circle.w, vw);
 		const circleH = scaleDim(SHAPE_DIMS.circle.h, vw);
 
@@ -82,6 +93,66 @@
 		const formName = rect(formSectionName);
 		const formEmail = rect(formSectionEmail);
 		const formMessage = rect(formSectionMessage);
+		const formBtn = rect(btnContainer);
+		const formMsg = rect(msgDiv);
+
+		/** @type {Record<FormState, SectionAnchors>} */
+		const formAnchors = {
+			idle: {
+				red: formName
+					? {
+							x: formName.right + formName.width * 0 - redW * 1,
+							y: formName.bottom + formName.height * 0 - redH * 0.4,
+							scale: 1,
+							rotate: 202
+						}
+					: offscreenLeft,
+				teal: formEmail
+					? {
+							x: formEmail.right + formEmail.width * 0.1 + tealW * 0,
+							y: formEmail.bottom - formEmail.height * 0 - tealH * 1.7,
+							scale: 1,
+							rotate: 21
+						}
+					: offscreenRight,
+				urlbar: formH
+					? {
+							x: formH.left + formH.width * 0.5 - urlbarW * 0.7,
+							y: formH.bottom,
+							scale: 1,
+							rotate: -357
+						}
+					: offscreenLeft,
+				circle: formMessage
+					? {
+							x: formMessage.right + formMessage.width * 0 + circleW * 0.5,
+							y: formMessage.bottom - circleH * 1,
+							scale: 1,
+							rotate: 0
+						}
+					: offscreenRight
+			},
+			active: {
+				urlbar: formBtn 
+					? { x: formBtn.right + formBtn?.width * 0 + urlbarW * 0, y: formBtn.top + formBtn.height * 0 + urlbarH * 0, scale: 1, rotate: 0 }
+					: offscreenLeft,
+				circle: formBtn 
+					? { x: formBtn.right + formBtn?.width * 0 + circleW * 0, y: formBtn.top + formBtn.height * 0 + circleH * 0, scale: 1, rotate: 0 }
+					: offscreenRight,
+				red: formBtn 
+					? { x: formBtn.right + formBtn?.width * 0 + redW * 0, y: formBtn.top + formBtn.height * 0 + redH * 0, scale: 1, rotate: 0 }
+					: offscreenLeft,
+				teal: formBtn 
+					? { x: formBtn.right + formBtn?.width * 0 + tealW * 0, y: formBtn.top + formBtn.height * 0 + tealH * 0, scale: 1, rotate: 0 }
+					: offscreenRight,
+			},
+			success: {
+				urlbar: offscreenLeft,
+				circle: offscreenRight,
+				red: offscreenLeft,
+				teal: offscreenRight,
+			}
+		};
 
 		return [
 			// Section 0 — hero: shapes locked over the logo (opacity 0)
@@ -95,40 +166,38 @@
 			{
 				// left edge of h2, aligned to its bottom
 				red: h
-					? { x: h.left + redW * 0.5, y: h.bottom + h.height * 0.03 - redH * 0.5, scale: 1, rotate: 10 }
-					: offscreen,
+					? {
+							x: h.left + redW * 0.5,
+							y: h.bottom + h.height * 0.2 - redH * 0.5,
+							scale: 1,
+							rotate: 10
+						}
+					: offscreenLeft,
 				// center of h2 bottom
 				teal: h
-					? { x: h.left + h.width * 0.5 - tealW * 0.5, y: h.bottom - h.height * 0.4 - tealH * 0.5, scale: 1, rotate: 25 }
-					: offscreen,
+					? {
+							x: h.left + h.width * 0.5 - tealW * 0.5,
+							y: h.bottom - h.height * 0.4 - tealH * 0.5,
+							scale: 1,
+							rotate: 25
+						}
+					: offscreenLeft,
 				// right edge of h2 bottom
 				urlbar: h
-					? { x: h.right - h.width * 0.1 - urlbarW, y: h.bottom - urlbarH * 0.5, scale: 1, rotate: 3 }
-					: offscreen,
+					? {
+							x: h.right - h.width * 0.1 - urlbarW,
+							y: h.bottom - urlbarH * 0.5,
+							scale: 1,
+							rotate: 3
+						}
+					: offscreenLeft,
 				// top-left corner of the paragraph
 				circle: h
-					? { x: h.left - h.width * 0.05 - circleW, y: h.top, scale: 1, rotate: 0 }
-					: offscreen
+					? { x: h.left - h.width * 0.07 - circleW * 0.5, y: h.top, scale: 1, rotate: 0 }
+					: offscreenLeft
 			},
 			// Section 2 — contact: shapes move to new decorative positions
-			{
-				// left edge of h2, aligned to its bottom
-				red: formName
-					? { x: formName.left + formName.width * 0.07 + redW * 1.4, y: formName.bottom + formName.height * 1.2 - redH * 3.3, scale: 1, rotate: 202 }
-					: offscreen,
-				// center of h2 bottom
-				teal: formEmail
-					? { x: formEmail.left + formEmail.width * 0.05 + tealW, y: formEmail.bottom - formEmail.height * 1.95 + tealH * 4, scale: 1, rotate: 21 }
-					: offscreen,
-				// right edge of h2 bottom
-				urlbar: formH
-					? { x: formH.left + formH.width * 0.5 - urlbarW * 0.7, y: formH.bottom, scale: 1, rotate: -357 }
-					: offscreen,
-				// top-left corner of the paragraph
-				circle: formMessage
-					? { x: formMessage.left + formMessage.width * 0.015 + circleW * 3, y: formMessage.bottom - circleH, scale: 1, rotate: 0 }
-					: offscreen
-			},
+			formAnchors[formState]
 		];
 	});
 
@@ -187,12 +256,15 @@
 
 	<section data-section="2" class="section">
 		<div class="form-container">
-			<ContactForm 
-				{form} 
-				bind:heading={formSectionHeading} 
-				bind:input1={formSectionName} 
-				bind:input2={formSectionEmail} 
-				bind:input3={formSectionMessage} 
+			<ContactForm
+				{form}
+				bind:heading={formSectionHeading}
+				bind:input1={formSectionName}
+				bind:input2={formSectionEmail}
+				bind:input3={formSectionMessage}
+				bind:btnContainer={btnContainer}
+				bind:msgDiv={msgDiv}
+				bind:formState
 			/>
 		</div>
 	</section>
@@ -203,7 +275,6 @@
 </footer>
 
 <style>
-
 	.form-container {
 		width: min(90%, 700px);
 		margin: 0 auto;
