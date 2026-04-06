@@ -1,3 +1,6 @@
+
+/** @typedef {'idle' | 'active' | 'success'} FormState */
+
 /**
  * @typedef {'urlbar' | 'circle' | 'red' | 'teal'} ShapeId
  */
