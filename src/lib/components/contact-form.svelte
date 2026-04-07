@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms'; // Import SvelteKit's enhance function for progressive enhancement
 	import LogoButton from './logo-button.svelte';
+	import logo from '$lib/assets/logo-2.svg';
 
 	const googleRecaptchaSiteKey = '6Lc_c48sAAAAAIDHi-YA3zojszyiQ4luYWTf1x2Z';
 	let captchaCompleted = $state(false);
@@ -38,7 +39,7 @@
 		w.handleCaptchaExpired = handleCaptchaExpired;
 	});
 
-    /** @import { FormState } from '$lib/types/logo'*/
+	/** @import { FormState } from '$lib/types/logo'*/
 
 	/**
 	 * @type {{
@@ -48,8 +49,8 @@
 	 *   input1?: HTMLLabelElement | null,
 	 *   input2?: HTMLLabelElement | null,
 	 *   input3?: HTMLLabelElement | null,
-     *   btnContainer?: HTMLDivElement | null,
-     *   msgDiv?: HTMLDivElement | null,
+	 *   btnContainer?: HTMLDivElement | null,
+	 *   msgDiv?: HTMLDivElement | null,
 	 * }}
 	 */
 
@@ -60,8 +61,8 @@
 		input1 = $bindable(),
 		input2 = $bindable(),
 		input3 = $bindable(),
-        btnContainer = $bindable(),
-        msgDiv = $bindable(),
+		btnContainer = $bindable(),
+		msgDiv = $bindable()
 	} = $props(); // Optional: bind to the form prop to access return values
 </script>
 
@@ -103,19 +104,22 @@
 		></div>
 
 		<div class="btn-container" bind:this={btnContainer}>
-            <LogoButton
-                type="submit"
-                buttonText={isSubmitting ? 'Processing...' : 'Get Started'}
-                disabled={!captchaCompleted || isSubmitting}
-                loading={isSubmitting}
-                        
-            />
-        </div>
+			<LogoButton
+				type="submit"
+				buttonText={isSubmitting ? 'Processing...' : 'Get Started'}
+				disabled={!captchaCompleted || isSubmitting}
+				loading={isSubmitting}
+			/>
+		</div>
 	</form>
 {/if}
 
 {#if form?.message}
-	<div class="message" bind:this={msgDiv}>{@html form.message}</div>
+	<div class="message" bind:this={msgDiv}>
+		{@html form.message}
+
+		<img src={logo} width="200" height="auto" alt="Monty Pages" />
+	</div>
 {/if}
 
 <style>
@@ -129,9 +133,9 @@
 		display: grid;
 	}
 
-    .btn-container {
-        width: fit-content;
-    }
+	.btn-container {
+		width: fit-content;
+	}
 
 	label {
 		font-size: 1rem;
@@ -149,9 +153,9 @@
 		}
 	}
 
-    .message {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+	.message {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 </style>
