@@ -6,7 +6,7 @@ import {
 	SMTP_PASS,
 	SMTP_USER,
 	RECAPTCHA_SECRET_KEY
-} from '$env/dynamic/private'; // Use environment variables for security
+} from '$env/static/private'; // Use environment variables for security
 
 export const actions = {
 	/** @param {import('@sveltejs/kit').RequestEvent} event */
