@@ -134,13 +134,13 @@
 			},
 			active: {
 				urlbar: formBtn 
-					? { x: formBtn.right + formBtn?.width * 0 + urlbarW * 0, y: formBtn.top + formBtn.height * 0 + urlbarH * 0, scale: 1, rotate: 0 }
+					? { x: formBtn.right + formBtn?.width * 0 + urlbarW * 0.5, y: formBtn.top + formBtn.height * 0.5 - urlbarH * 0.5, scale: 1, rotate: 0 }
 					: offscreenLeft,
 				circle: formBtn 
-					? { x: formBtn.right + formBtn?.width * 0 + circleW * 0, y: formBtn.top + formBtn.height * 0 + circleH * 0, scale: 1, rotate: 0 }
+					? { x: formBtn.right + formBtn?.width * 0 - circleW * 0.5 + tealW * 1, y: formBtn.top + formBtn.height * 0.5 - circleH * 0.5, scale: 1, rotate: 0 }
 					: offscreenRight,
 				red: formBtn 
-					? { x: formBtn.right + formBtn?.width * 0 + redW * 0, y: formBtn.top + formBtn.height * 0 + redH * 0, scale: 1, rotate: 0 }
+					? { x: formBtn.right + formBtn?.width * 0 - redW * 1.5, y: formBtn.top + formBtn.height * 1 - redH * 1, scale: 1, rotate: 210 }
 					: offscreenLeft,
 				teal: formBtn 
 					? { x: formBtn.right + formBtn?.width * 0 + tealW * 0, y: formBtn.top + formBtn.height * 0 + tealH * 0, scale: 1, rotate: 0 }

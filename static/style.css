@@ -74,7 +74,7 @@ input, textarea {
 }
 
 .container {
-    width: min(90%, 700px);
+    width: min(80%, 700px);
     margin: 0 auto;
 
     &.wide {
