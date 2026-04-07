@@ -254,7 +254,7 @@
 		<OneLiner bind:heading={section1Heading} bind:para={section1Para} />
 	</section>
 
-	<section data-section="2" class="section">
+	<section data-section="2" class="section" id="contactForm">
 		<div class="form-container">
 			<ContactForm
 				{form}
