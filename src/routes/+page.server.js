@@ -76,7 +76,7 @@ export const actions = {
 				attachments: [
 					{
 						filename: 'logo-2.svg',
-						path: 'src/lib/assets/logo-2.svg',
+						path: '$lib/assets/logo-2.svg',
 						cid: 'logo' 
 					}
 				]
@@ -86,7 +86,6 @@ export const actions = {
 				message: `
                 <h2>Thanks for reaching out!</h2>
                 <p>We aim to get back to you within 1 business day.</p>
-                <img src='src/lib/assets/logo-2.svg' width=200 height=auto alt='Monty Pages'>
                 `
 			};
 		} catch (error) {

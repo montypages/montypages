@@ -14,7 +14,7 @@
         justify-items: center;
     }
 
-    h2 {
+    h3 {
         width: fit-content;
     }
 </style>
