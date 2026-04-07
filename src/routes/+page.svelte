@@ -168,7 +168,7 @@
 				red: h
 					? {
 							x: h.left + redW * 0.5,
-							y: h.bottom + h.height * 0.2 - redH * 0.5,
+							y: h.bottom + h.height * 0.5 - redH * 0.5,
 							scale: 1,
 							rotate: 10
 						}
