@@ -9,7 +9,7 @@
                 <img class="logo-img" src={logo} alt="Monty Pages">
                 <h1 class="logo-text">Monty Pages</h1>
                 <h2>Beautiful Custom Websites</h2>
-                <a href="contactForm">
+                <a href="#contactForm">
                     <LogoButton buttonText="Contact" />
                 </a>
             </div>
