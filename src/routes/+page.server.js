@@ -12,9 +12,9 @@ export const actions = {
 	/** @param {import('@sveltejs/kit').RequestEvent} event */
 	submitMail: async ({ request }) => {
 		const formData = await request.formData();
-		const name = formData.get('name');
-		const email = formData.get('email');
-		const message = formData.get('message');
+		const name = /** @type {string} */ (formData.get('name'));
+		const email = /** @type {string} */ (formData.get('email'));
+		const message = /** @type {string} */ (formData.get('message'));
 		const token = formData.get('g-recaptcha-response');
 
 		const secret = RECAPTCHA_SECRET_KEY;
@@ -77,7 +77,7 @@ export const actions = {
 					{
 						filename: 'logo-2.svg',
 						path: 'src/lib/assets/logo-2.svg',
-						cid: 'logo' // 👈 must match the cid in the img src
+						cid: 'logo' 
 					}
 				]
 			});
