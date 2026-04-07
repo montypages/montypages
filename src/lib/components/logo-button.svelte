@@ -6,8 +6,8 @@
         onclick?: MouseEventHandler<HTMLButtonElement>;
         type?: "button" | "submit" | "reset" | null | undefined;
         buttonText: string;
-        disabled: boolean;
-        loading: boolean;
+        disabled?: boolean;
+        loading?: boolean;
     }
 
     let { 
