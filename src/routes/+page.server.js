@@ -71,15 +71,8 @@ export const actions = {
 				html: `
                     <h2>${name}, thanks for reaching out!</h2>
                     <p>We aim to get back to you within 1 business day.</p>
-                    <img src='cid:logo' width='200' alt='Monty Pages'>
+                    <img src='https://www.montypage.com/logo2.png' width='200' alt='Monty Pages'>
                 `,
-				attachments: [
-					{
-						filename: 'logo-2.svg',
-						path: '$lib/assets/logo-2.svg',
-						cid: 'logo' 
-					}
-				]
 			});
 			return {
 				success: true,
